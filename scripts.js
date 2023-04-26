@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    const navItemWidth = 100;
+    const navItemWidth = 50;
     const minWindowWidth = 320;
 
     function calculateNumberOfNavItems() {
@@ -51,7 +51,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const numberOfNavItemsToShow = calculateNumberOfNavItems();
+    console.log('Window width:', window.innerWidth);
     console.log('Number of navigation items to show:', numberOfNavItemsToShow);
+    console.log('Navigation items:', navItems);
+    console.log('Popover menu:', popoverMenu);
 
     hideNavItems(navItems, numberOfNavItemsToShow, popoverMenu);
 

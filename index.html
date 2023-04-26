@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dynamic navigation menu on resize</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      font-family: sans-serif;
+      background-color: #dedddd;
+    }
+
+    /* style header and navigation */
+    header {
+      background-color: #333;
+      padding: 10px;
+      width: 100%;
+      position: fixed;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      margin-right: 1rem;
+      color: #fff;
+    }
+
+    /* nav {
+      flex: 1;
+      margin: 0 3.75rem;
+      position: relative;
+    } */
+
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+
+    nav ul li {
+      margin: 0 2px;
+    }
+
+    /* style navigation items */
+    .navigation__item {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .navigation__link {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .navigation__item--hidden {
+      display: none;
+    }
+
+    /* style active navigation link */
+    .navigation__link--active {
+      background-color: #fff;
+      color: #333;
+    }
+
+    /* style popover menu */
+    .popover {
+      position: relative;
+      /* right: 10%; */
+    }
+
+    .popover__menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 1;
+      display: none;
+      width: 100%;
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      color: #212529;
+      text-align: left;
+      list-style: none;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 0.25rem;
+    }
+
+    .popover__menu--active {
+      display: block;
+    }
+
+    .popover__menu-item {
+      display: block;
+      width: 100%;
+      padding: 0.5rem 1rem;
+      clear: both;
+      font-weight: 400;
+      color: #212529;
+      text-align: inherit;
+      white-space: nowrap;
+      background-color: transparent;
+      border: 0;
+    }
+
+    .popover__menu-item:hover {
+      color: #16181b;
+      text-decoration: none;
+      background-color: #f8f9fa;
+    }
+
+    /* button.navigation__link {
+      background: none;
+      border: none;
+      cursor: pointer;
+    } */
+
+    .hamburger-icon {
+      /* background: url('https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png') no-repeat; */
+      /* background-color: #fff; */
+      background-size: 100%;
+      width: 50px;
+      height: 50px;
+      border: 0;
+      outline: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hamburger-icon:hover {
+      background-color: #fff;
+    }
+
+    .popover__wrapper {
+      position: relative;
+    }
+
+    .popover__content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      display: block;
+      width: 100px;
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      color: #212529;
+      text-align: left;
+      list-style: none;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 0.25rem;
+    }
+
+    .actionList {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
+    }
+
+    .actionList__item {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      margin: 0;
+      background: 0 0;
+      border: 0;
+      position: relative;
+      width: 100%;
+      /* min-height: var(--action-list-item-min-height); */
+      text-align: left;
+      text-decoration: none;
+      cursor: pointer;
+      color: inherit;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+    }
+
+    .actionList__item:hover {
+      background-color: #f8f9fa;
+    }
+
+    .actionList__actions {
+      flex-direction: column;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">
+      Logo Here
+    </div>
+    <nav>
+      <ul class="navigation__list" style="align-items: center;">
+        <li class="navigation__item">
+          <a href="#" class="navigation__link">Home</a>
+        </li>
+        <li class="navigation__item">
+          <a href="#" class="navigation__link">About Us</a>
+        </li>
+        <li class="navigation__item">
+          <a href="#" class="navigation__link">News</a>
+        </li>
+        <li class="navigation__item">
+          <a href="#" class="navigation__link">Works</a>
+        </li>
+        <li class="navigation__item">
+          <a href="#" class="navigation__link">Services</a>
+        </li>
+        <li class="navigation__item">
+          <a href="#" class="navigation__link">Contacts</a>
+        </li>
+        <li class="navigation__item">
+          <a href="#" class="navigation__link">Nav item 1</a>
+        </li>
+        <li class="navigation__item">
+          <a href="#" class="navigation__link">Nav item 2</a>
+        </li>
+        <li class="navigation__item">
+          <a href="#" class="navigation__link">Nav item 3</a>
+        </li>
+        <li class="navigation__item">
+          <a href="#" class="navigation__link">Nav item 4</a>
+        </li>
+        <li class="navigation__item popover">
+          <button type="button" class="navigation__link hamburger-icon" data-popper-toggle="dropdown"
+            data-popper-placement="bottom" aria-haspopup="true" aria-expanded="false">
+            <img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png"
+              style="width: 100%; height: auto;" alt="">
+          </button>
+          <div class="popover__menu" data-popper-show="false">
+            <div class="popover__wrapper">
+              <div class="popover__content popover__content--sizeMedium">
+                <div class="actionList">
+                  <ul class="actionList__actions" role="menu" tabindex="-1"></ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <script>
+    document.querySelector('.hamburger-icon').addEventListener('click', function () {
+      document.querySelector('.popover__menu').classList.toggle('popover__menu--active');
+    }
+    );
+  </script>
+  <script src="scripts.js"></script>
+</body>
+
+</html>
